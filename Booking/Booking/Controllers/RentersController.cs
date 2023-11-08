@@ -9,20 +9,23 @@ namespace Booking.Controllers
     [ApiController]
     public class RentersController : ControllerBase
     {
-        private static List<Renter> renters = new List<Renter> ();
-        private static int count=1;
+        private readonly DataContext context;
+        public RentersController(DataContext context)
+        {
+            this.context = context;
+        }
         // GET: api/<RentersController>
         [HttpGet]
         public IEnumerable<Renter> Get()
         {
-            return renters;
+            return context.RentersList;
         }
 
         // GET api/<RentersController>/5
         [HttpGet("{id}")]
         public ActionResult<Renter> Get(int id)
         {
-            var renter = renters.Find(e => e.renterCode == id);
+            var renter = context.RentersList.Find(e => e.renterCode == id);
             if(renter == null)
                 return NotFound();
             return renter;
@@ -32,14 +35,14 @@ namespace Booking.Controllers
         [HttpPost]
         public void Post([FromBody] Renter r)
         {
-            renters.Add(new Renter { renterCode = count++, name = r.name, phone = r.phone });
+            context.RentersList.Add(new Renter { renterCode = context.CntRenter++, name = r.name, phone = r.phone });
         }
 
         // PUT api/<RentersController>/5
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Renter r)
         {
-            var renter = renters.Find(e => e.renterCode == r.renterCode);
+            var renter = context.RentersList.Find(e => e.renterCode == r.renterCode);
             if (renter == null)
                 return NotFound();
             renter.name = r.name;
@@ -51,10 +54,10 @@ namespace Booking.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var renter = renters.Find(e => e.renterCode == id);
+            var renter = context.RentersList.Find(e => e.renterCode == id);
             if (renter == null)
                 return NotFound();
-            renters.Remove(renter);
+            context.RentersList.Remove(renter);
             return Ok();
 
         }
