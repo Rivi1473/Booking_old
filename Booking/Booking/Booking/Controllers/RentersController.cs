@@ -31,7 +31,7 @@ namespace Booking.Controllers
         [HttpGet("{id}")]
         public Renter Get(int renterCode)
         {
-            return _renterService.GetAllRenters().Find(e => e.renterCode== renterCode);
+            return _renterService.GetAllRenters().Find(e => e.renterId== renterCode);
         }
 
         // POST api/<RentersController>

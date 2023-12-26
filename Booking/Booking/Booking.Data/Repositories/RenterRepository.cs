@@ -18,31 +18,31 @@ namespace Booking.Data.Repositories
         }
         public List<Renter> GetAllRenters()
         {
-            return _context.RentersList;
+            return _context.Renters.ToList();
         }
         public Renter GetRenterById(int id)
         {
-            return _context.RentersList.Find(o => o.renterCode == id);
+            return _context.Renters.ToList().Find(o => o.renterId == id);
         }
         public void AddRenter(Renter r)
         {
-            _context.RentersList.Add(new Renter
+            _context.Renters.Add(new Renter
             {
-                renterCode = _context.CntRenters++,
+                renterId = _context.CntRenters++,
                 name = r.name,
                 phone = r.phone
             });
         }
         public void UpdateRenter(int i,Renter r)
         {
-            var renter = _context.RentersList.Find(e => e.renterCode==i);          
+            var renter = _context.Renters.ToList().Find(e => e.renterId==i);          
             renter.name = r.name;
             renter.phone = r.phone;
         }
         public void DeleteRenter(int id)
         {
-            var renter = _context.RentersList.Find(o => o.renterCode == id);
-            _context.RentersList.Remove(renter);
+            var renter = _context.Renters.ToList().Find(o => o.renterId == id);
+            _context.Renters.Remove(renter);
         }
     }
 }
